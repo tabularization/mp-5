@@ -11,20 +11,29 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFurl("");
-
     try {
       const res = await createShortUrl({ alias, url });
       setFurl(res);
       setError("");
-    } catch {
-      setError("Please enter a valid URL.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        if (error.message === "Alias already exists.") {
+          setError("That alias already exists.");
+        } else if (error.message === "Invalid URL.") {
+          setError("Please enter a valid URL.");
+        } else {
+          setError("An unexpected error occurred. Please try again.");
+        }
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
   return (
     <div className="relative font-mono flex flex-col justify-center items-center h-screen overflow-hidden text-lg">
       <div className="absolute inset-0 bg-[url('/bg1.png')] bg-cover z-[-1] animate-zoom blur-[2px]"></div>
-      <div className="w-[40%] h-[60vh] bg-gray-900/10 rounded-[24px] drop-shadow-black drop-shadow-sm shadow-lg border border-gray-400/20 flex flex-col justify-center items-center">
+      <div className="w-[40%] h-[60vh] bg-gray-900/10 rounded-[24px] drop-shadow-black drop-shadow-sm shadow-lg border border-gray-600/20 flex flex-col justify-center items-center">
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 mb-2">
           <h1 className="uppercase font-sans text-2xl tracking-[2px] mb-2">CS391 URL Shortener</h1>
           <p className="font-bold font-mono text-shadow">Enter an URL:</p>
