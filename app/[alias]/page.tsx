@@ -8,9 +8,9 @@ export default async function Redirect({ params }: { params: { alias: string } }
 
   if (!result) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
+      <div className="min-h-screen text-gray-500 flex flex-col items-center justify-center">
         <h1 className="text-3xl font-bold">404</h1>
-        <p>Short URL not found.</p>
+        <p className="uppercase tracking-[-1px]">Short URL not found</p>
       </div>
     );
   } 
