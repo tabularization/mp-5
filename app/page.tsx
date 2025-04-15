@@ -19,13 +19,11 @@ export default function Home() {
       if (error instanceof Error) {
         if (error.message === "Alias already exists.") {
           setError("That alias already exists.");
-        } else if (error.message === "Invalid URL.") {
-          setError("Please enter a valid URL.");
         } else {
-          setError("An unexpected error occurred. Please try again.");
+          setError("Please enter a valid URL.");
         }
       } else {
-        setError("An unexpected error occurred. Please try again.");
+        setError("An unexpected error occurred.");
       }
     }
   };
