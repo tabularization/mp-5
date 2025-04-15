@@ -1,7 +1,7 @@
 import getCollection, { url_collection } from "@/lib/db";
 import { redirect } from "next/navigation";
 
-export default async function Redirect({ params }: { params: { alias: string } }) {
+export default async function Redirect({ params }: { params: Promise<{ alias: string }>}) {
   const { alias } = await params;
   const collection = await getCollection(url_collection);
   const result = await collection.findOne({ alias });
@@ -13,7 +13,7 @@ export default async function Redirect({ params }: { params: { alias: string } }
         <p className="uppercase tracking-[-1px]">Short URL not found</p>
       </div>
     );
-  } 
+  }
 
-  redirect(result.url)
+  redirect(result.url);
 }
