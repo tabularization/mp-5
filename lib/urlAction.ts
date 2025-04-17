@@ -1,20 +1,29 @@
-"use server"
+"use server";
 import getCollection, { url_collection } from "@/lib/db";
 
 export async function createShortUrl({ alias, url }: { alias: string; url: string }) {
-    try {
-        new URL(url);
-    } catch { 
-        throw new Error("Invalid URL.")
-    }
+  try {
+    new URL(url);
+  } catch {
+    throw new Error("Invalid URL.");
+  }
 
-    const collection = await getCollection(url_collection);
-    const existing_url = await collection.findOne({alias})
+  try {
+    await fetch(`${url}`, {
+      method: "HEAD",
+      mode: "no-cors",
+    });
+  } catch {
+    throw new Error("Domain error.");
+  }
 
-    if (existing_url) {
-        throw new Error("Alias already exists.")
-    }
+  const collection = await getCollection(url_collection);
+  const existing_url = await collection.findOne({ alias });
 
-    await collection.insertOne({alias, url});
-    return `${process.env.NEXT_PUBLIC_URL}/${alias}`;
+  if (existing_url) {
+    throw new Error("Alias already exists.");
+  }
+
+  await collection.insertOne({ alias, url });
+  return `${process.env.NEXT_PUBLIC_URL}/${alias}`;
 }

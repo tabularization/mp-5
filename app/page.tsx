@@ -16,11 +16,14 @@ export default function Home() {
       setFurl(res);
       setError("");
     } catch (error: unknown) {
+      console.log(error)
       if (error instanceof Error) {
-        if (error.message === "Alias already exists.") {
-          setError("That alias already exists.");
-        } else {
+        if (error.message == "Invalid URL.") {
           setError("Please enter a valid URL.");
+        } else if (error.message == "Domain error.") {
+          setError("This domain doesn't have a server.");
+        } else {
+          setError("Alias already exists.")
         }
       } else {
         setError("An unexpected error occurred.");
