@@ -10,24 +10,12 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFurl("");
-    try {
-      const res = await createShortUrl({ alias, url });
-      setFurl(res);
+    const res = await createShortUrl({ alias, url });
+    if ("error" in res) {
+      setError(res.error);
+    } else {
+      setFurl(res.shortUrl);
       setError("");
-    } catch (error: unknown) {
-      console.log(error)
-      if (error instanceof Error) {
-        if (error.message == "Invalid URL.") {
-          setError("Please enter a valid URL.");
-        } else if (error.message == "Domain error.") {
-          setError("This domain doesn't have a server.");
-        } else {
-          setError("Alias already exists.")
-        }
-      } else {
-        setError("An unexpected error occurred.");
-      }
     }
   };
 
