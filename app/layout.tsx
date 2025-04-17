@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "URL Shorterner | CS301",
+  title: "URL Shorterner | CS391",
   description: "Shorten URLs efficiently.",
 };
 
